@@ -1,142 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta viewport="width=device-width, initial-scale=1.0">
-    <title>Stars Hollow Coffee Recipes</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stars hollow café</title>
+  <style>
+    :root {
+      --bg: #f8f2ed;
+      --card: #fff4e6;
+      --text: #3a1f0b;
+      --muted: #7a4b36;
+      --accent: #b44f2e;
+      --radius: 18px;
+      --shadow: rgba(120,70,40,0.25);
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Georgia", serif;
-            background-color: #f7efe5;
-            color: #4b2e20;
-            padding: 20px;
-        }
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    header {
+      background-color: var(--accent);
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 8px var(--shadow);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #ffd6b2; }
 
-        h1 {
-            font-size: 3rem;
-            color: #5a3825;
-            text-shadow: 2px 2px #d8b59e;
-        }
+    .hero {
+      position: relative;
+      background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    .hero h2 { font-size: 3rem; text-shadow: 2px 2px #4b2e20; }
+    .hero p { font-size: 1.2rem; text-shadow: 1px 1px #4b2e20; }
 
-        .subtitle {
-            font-style: italic;
-            color: #7a4b36;
-            font-size: 1.2rem;
-        }
+    main {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 30px;
+      padding: 40px;
+    }
 
-        .recipe-card {
-            background-color: #fff4e6;
-            border: 2px solid #d7a87b;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(120, 70, 40, 0.2);
-        }
+    .recipe-card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 14px var(--shadow);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .recipe-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px var(--shadow); }
+    .recipe-card img { width: 100%; display: block; }
+    .recipe-content { padding: 20px; }
+    .recipe-content h3 { margin-top: 0; color: var(--accent); }
+    .recipe-content p { color: var(--muted); font-size: 0.95rem; }
+    .recipe-content ul, .recipe-content ol { padding-left: 20px; margin-bottom: 10px; }
 
-        .recipe-img {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
+    aside.sidebar {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 6px 14px var(--shadow);
+      height: fit-content;
+    }
+    aside.sidebar h3 { margin-top: 0; color: var(--accent); }
+    aside.sidebar p { font-size: 0.9rem; margin-bottom: 15px; color: var(--muted); }
 
-        h2 {
-            margin-top: 0;
-            color: #6b3e29;
-        }
+    footer {
+      background-color: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
 
-        .ingredients li {
-            margin-bottom: 4px;
-        }
+    .leaves {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .leaf {
+      position: absolute;
+      top: -50px;
+      width: 25px;
+      height: 35px;
+      background-color: #d78a50;
+      clip-path: polygon(
+        50% 0%, 65% 20%, 100% 40%, 70% 60%, 85% 100%, 50% 75%, 15% 100%, 30% 60%, 0% 40%, 35% 20%
+      );
+      opacity: 0.85;
+      animation: fall 12s linear infinite;
+      left: calc(var(--i) * 20%);
+    }
+    .leaf:nth-child(1) { animation-duration: 10s; background-color:#b44f2e; }
+    .leaf:nth-child(2) { animation-duration: 12s; background-color:#c96a3f; }
+    .leaf:nth-child(3) { animation-duration: 11s; background-color:#d78a50; }
+    .leaf:nth-child(4) { animation-duration: 14s; background-color:#b44f2e; }
+    .leaf:nth-child(5) { animation-duration: 13s; background-color:#c96a3f; }
 
-        .divider {
-            width: 100%;
-            height: 2px;
-            background: #d7a87b;
-            margin: 30px 0;
-        }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(25vh) rotate(45deg); }
+      50% { transform: translateY(50vh) rotate(90deg); }
+      75% { transform: translateY(75vh) rotate(135deg); }
+      100% { transform: translateY(100vh) rotate(180deg); }
+    }
 
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-style: italic;
-            color: #7a4b36;
-        }
-    </style>
+    @media (max-width: 1100px) { main { grid-template-columns: 1fr; padding: 20px; } }
+    @media (max-width: 600px) {
+      .hero h2 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      header { flex-direction: column; gap: 10px; }
+      nav a { margin-left: 15px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="leaves">
+    <div class="leaf" style="--i:0;"></div>
+    <div class="leaf" style="--i:1;"></div>
+    <div class="leaf" style="--i:2;"></div>
+    <div class="leaf" style="--i:3;"></div>
+    <div class="leaf" style="--i:4;"></div>
+  </div>
 
-<header>
-    <h1>Stars Hollow Coffee Recipes</h1>
-    <div class="subtitle">Inspired by Gilmore Girls & cozy TV cafés</div>
-</header>
+  <header>
+    <h1>yashvi kandyala</h1>
+    <nav>
+      <a href="#recipes">recipes</a>
+      <a href="#sidebar">fun stuff</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
 
-<div class="divider"></div>
+  <section class="hero">
+    <div>
+      <h2>stars hollow café</h2>
+      <p>ever wish you were at luke's diner, gossiping with rory and lorelai? 🍂☕</p>
+    </div>
+  </section>
 
-<!-- RECIPE 1 -->
-<div class="recipe-card">
-    <img class="recipe-img" src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80" alt="Cinnamon Latte">
-    <h2>Lorelai’s Cinnamon Latte</h2>
-    <p>A warm, sweet pick-me-up perfect for fall leaves and small-town charm.</p>
+  <main>
+    <section id="recipes">
+      <div class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80" alt="cinnamon latte">
+        <div class="recipe-content">
+          <h3>lorelai’s cinnamon latte</h3>
+          <p>approved by the expert herself</p>
+          <h4>ingredients:</h4>
+          <ul>
+            <li>2 shots espresso</li>
+            <li>1 cup steamed milk</li>
+            <li>1 tbsp cinnamon syrup</li>
+            <li>whipped cream + a pinch of cinnamon</li>
+          </ul>
+          <h4>instructions:</h4>
+          <ol>
+            <li>brew espresso shots.</li>
+            <li>steam milk until frothy.</li>
+            <li>mix espresso with cinnamon syrup.</li>
+            <li>pour milk gently, top with whipped cream & sprinkle cinnamon.</li>
+            <li>enjoy!</li>
+          </ol>
+        </div>
+      </div>
 
-    <h3>Ingredients</h3>
-    <ul class="ingredients">
-        <li>2 shots espresso</li>
-        <li>1 cup steamed milk</li>
-        <li>1 tbsp cinnamon syrup</li>
-        <li>Whipped cream</li>
-    </ul>
+      <div class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=80" alt="diner coffee">
+        <div class="recipe-content">
+          <h3>luke’s classic diner coffee</h3>
+          <p>plain. black. coffee. perfect for pulling an all-nighter to study for the world test the next day</p>
+          <h4>ingredients:</h4>
+          <ul>
+            <li>dark roast coffee grounds</li>
+            <li>hot water</li>
+            <li>milk or cream (optional)</li>
+            <li>sugar (optional)</li>
+          </ul>
+          <h4>instructions:</h4>
+          <ol>
+            <li>brew coffee using your favorite method (drip, pour-over, french press).</li>
+            <li>pour into a favorite mug.</li>
+            <li>add milk or sugar if desired.</li>
+            <li>enjoy!</li>
+          </ol>
+        </div>
+      </div>
 
-    <h3>Instructions</h3>
-    <p>Mix espresso with cinnamon syrup, add steamed milk, top with whipped cream and cinnamon.</p>
-</div>
+      <div class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" alt="pumpkin mocha">
+        <div class="recipe-content">
+          <h3>pumpkin mocha special</h3>
+          <p>rory's choice (and yashvi's choice)</p>
+          <h4>ingredients:</h4>
+          <ul>
+            <li>1 shot espresso</li>
+            <li>1 tbsp pumpkin puree</li>
+            <li>1 tbsp cocoa powder</li>
+            <li>1 cup milk</li>
+            <li>1 tbsp sugar or maple syrup</li>
+            <li>whipped cream + cinnamon for topping</li>
+          </ul>
+          <h4>instructions:</h4>
+          <ol>
+            <li>heat milk with pumpkin, cocoa, and sugar until warm but not boiling.</li>
+            <li>brew espresso shot.</li>
+            <li>combine espresso and pumpkin milk mixture.</li>
+            <li>top with whipped cream and sprinkle cinnamon.</li>
+            <li>enjoy while watching the show!</li>
+          </ol>
+        </div>
+      </div>
+    </section>
 
-<!-- RECIPE 2 -->
-<div class="recipe-card">
-    <img class="recipe-img" src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=80" alt="Diner Coffee">
-    <h2>Luke’s Classic Diner Coffee</h2>
-    <p>Strong. No nonsense. Exactly the way Luke would make it.</p>
+    <aside id="sidebar" class="sidebar">
+      <h3>gilmore girls tidbits!</h3>
+      <p>- "this is a jumbo-coffee morning. i need coffee in an IV" — lorelai gilmore</p>
+      <p>- luke's diner is actually a converted hardware store</p>
+      <p>- "who cares if i'm pretty if i fail my finals?"" - rory gilmore</p>
+      <p>- pro tip (from yashvi): pair your coffee with a cheese danish from starbucks for the perfect breakfast</p>
+    </aside>
+  </main>
 
-    <h3>Ingredients</h3>
-    <ul class="ingredients">
-        <li>Dark roast grounds</li>
-        <li>Hot water</li>
-        <li>Optional: sugar</li>
-    </ul>
-
-    <h3>Instructions</h3>
-    <p>Brew strong with a drip machine or French press. Serve in a diner mug.</p>
-</div>
-
-<!-- RECIPE 3 -->
-<div class="recipe-card">
-    <img class="recipe-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" alt="Pumpkin Mocha">
-    <h2>Central Perk Pumpkin Mocha</h2>
-    <p>A Friends-style fall twist with pumpkin spice vibes.</p>
-
-    <h3>Ingredients</h3>
-    <ul class="ingredients">
-        <li>1 shot espresso</li>
-        <li>1 tbsp pumpkin puree</li>
-        <li>1 tbsp cocoa powder</li>
-        <li>1 cup milk</li>
-        <li>1 tbsp sugar</li>
-    </ul>
-
-    <h3>Instructions</h3>
-    <p>Heat milk with pumpkin, cocoa, and sugar. Add espresso and stir.</p>
-</div>
-
-<footer>
-    Brewed with love — and probably too much caffeine ☕🍁
-</footer>
-
+  <footer id="contact">
+    brewed w/ love by yashvi ☕🍂
+  </footer>
 </body>
 </html>

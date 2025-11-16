@@ -1,16 +1,133 @@
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    color: #ffb3b3;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: blueviolet; 
+:root {
+  --bg: #f7efe5;
+  --card: #fff4e6;
+  --text: #4b2e20;
+  --muted: #7a4b36;
+  --accent: #b44f2e;
+  --radius: 14px;
 }
 
+body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 40px;
+}
 h1 {
-    color:#ffb3b3;
-    border-bottom: 2px solid #ffb3b3;
-    padding-bottom: 10px;
+  font-size: 3rem;
+  color: var(--accent);
+  text-shadow: 2px 2px #d8b59e;
+}
+.subtitle {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 1.2rem;
+}
+
+/* Main layout */
+main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+}
+
+/* Recipes */
+section.recipes {
+  display: grid;
+  gap: 25px;
+}
+article.recipe-card {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(120,70,40,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+article.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(120,70,40,0.3);
+}
+.recipe-card img {
+  width: 100%;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+.ingredients, .directions {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 5px 0 10px 0;
+  padding-left: 18px;
+}
+
+/* Featured */
+aside.featured {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  height: fit-content;
+}
+.featured h2 {
+  margin-top: 0;
+  color: var(--accent);
+}
+button {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+button:hover {
+  background-color: #9a3c1f;
+}
+
+/* Footer */
+footer {
+  margin-top: 50px;
+  text-align: center;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Falling leaves */
+.leaves {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.leaf {
+  position: absolute;
+  top: -50px;
+  width: 30px; height: 30px;
+  background-color: #b44f2e;
+  border-radius: 50% 50% 50% 50%;
+  opacity: 0.8;
+  animation: fall 12s linear infinite;
+  left: calc(var(--i) * 20%);
+  transform: rotate(0deg);
+}
+@keyframes fall {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
 }

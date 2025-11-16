@@ -115,9 +115,24 @@
       width: 25px;
       height: 35px;
       background-color: #d78a50;
-      clip-path: polygon(
-        50% 0%, 65% 20%, 100% 40%, 70% 60%, 85% 100%, 50% 75%, 15% 100%, 30% 60%, 0% 40%, 35% 20%
-      );
+     clip-path: polygon(
+  50% 100%,  /* tip of stem */
+  47% 90%,
+  45% 80%,
+  35% 70%,
+  25% 55%,
+  20% 40%,
+  25% 25%,
+  40% 10%,
+  50% 5%,
+  60% 10%,
+  75% 25%,
+  80% 40%,
+  75% 55%,
+  65% 70%,
+  55% 80%,
+  53% 90%
+);
       opacity: 0.85;
       animation: fall 12s linear infinite;
       left: calc(var(--i) * 20%);
